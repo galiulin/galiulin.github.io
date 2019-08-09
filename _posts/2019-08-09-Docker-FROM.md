@@ -1,10 +1,15 @@
-FROM
+ [(перевод официальной документации)](https://docs.docker.com/engine/reference/builder/#from)
 
-    FROM <image> \[AS <name>\]
+    FROM <image> [AS <name>]
+	
 или
-    FROM <image>\[:<tag>\] \[AS <name>\]
+
+    FROM <image>[:<tag>] [AS <name>]
+	
 или
-    FROM <image>\[@<digest>\] \[AS <name>\]
+
+    FROM <image>[@<digest>] [AS <name>]
+	
 Dockerfile должен начинаться с инструкции `FROM`. Она начинает новый этап сборки и устанавливает [базовый образ](https://docs.docker.com/engine/reference/glossary/#base-image) для последующих инструкций. Образом может быть любой валидный образ, особенно легко начать с выдергивания образа из [Публичного репозитория](https://docs.docker.com/engine/tutorials/dockerrepos/)
 
 - `ARG` единственная инструкция которая может предшествовать `FROM` в `Dockerfile`. Смотри  [ссылку](https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact) чтобы понять как взаимодействуют инстукции `ARG` и `FROM`
