@@ -16,7 +16,7 @@ minimal_mistakes_skin    : "dark" # "air", "aqua", "contrast", "dark", "dirt", "
 
 # Site Settings
 locale                   : "ru-RU"
-title                    : "Blog"
+title                    : "G.Arthur"
 title_separator          : "-"
 subtitle                 : # site tagline that appears below site title in masthead
 name                     : "G.Arthur"
@@ -26,7 +26,7 @@ baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
 teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
 logo                     : "/assets/images/logo_200x200.png"# path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
-masthead_title           : "custom title"# overrides the website title displayed in the masthead, use " " for no title
+masthead_title           : "blog"# overrides the website title displayed in the masthead, use " " for no title
 # breadcrumbs            : false # true, false (default)
 words_per_minute         : 200
 comments:
@@ -131,6 +131,10 @@ author:
     - label: "Instagram"
       icon: "fab fa-fw fa-instagram"
       # url: "https://instagram.com/"
+    - label: "Telegram"
+      icon: "fab fa-fw fa-telegram"
+      url: "https://t.me/G_Arthur"
+    
 
 # Site Footer
 footer:
