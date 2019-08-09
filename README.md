@@ -1,1 +1,1 @@
-Блог https://murdre.github.io/
+Блог https://galiulin.github.io/
