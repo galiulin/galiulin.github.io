@@ -1,1 +1,4 @@
-Блог https://galiulin.github.io/
+Всем привет✋ Меня зовут Артур и это проект с моим блогом https://galiulin.github.io
+
+В текущем проекте от меня только наполнение.
+Как основу, тему и оформление использовал другой проект https://github.com/mmistakes/minimal-mistakes
