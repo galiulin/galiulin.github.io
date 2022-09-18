@@ -1,6 +1,8 @@
 ---
 title: "Использование jsonb в Hibernate 6"
 
+last_modified_at: 2022-09-18T15:28:00+03:00
+
 tags:
   - Transactional
   - Hibernate
@@ -65,3 +67,8 @@ public class SomeJson implements Serializable {
 }
 ```
 
+#### upd: 
+
+на [habr вышла статья про это](https://habr.com/ru/company/otus/blog/688714/),
+для более ранних версий рекомендуют ознакомиться с библиотекой [hibernate-types](https://github.com/vladmihalcea/hibernate-types).
+Как-то давно, где-то  я её использовал, вот только не помню где 
