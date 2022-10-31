@@ -30,3 +30,12 @@ You can search and do something with the results:
 ```bash
 find . -type f -iname '*.properties' -exec grep 'property.name' {} \;
 ```
+
+## psql
+
+It may not belong to the Linux command category, but I use it very often.
+
+```bash
+PGPASSWORD='yourpassword' psql -h hostname -p 5432 -d dbname -U username -c 'drop schema schemaname cascade'
+```
+
