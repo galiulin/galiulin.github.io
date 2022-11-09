@@ -5,7 +5,7 @@ header:
   image: assets/images/francesco-ungaro-qgZvBPM9Hm42-unsplash.jpg
   caption: "Photo by [**Francesco Ungaro**](https://unsplash.com/@francesco_ungaro) on [unsplash](https://unsplash.com/photos/qgZvBPM9Hm4)"
 
-last_modified_at: 2022-10-29T15:28:00+03:00
+last_modified_at: 2022-11-10T15:28:00+03:00
 
 tags:
   - Bash
@@ -29,6 +29,18 @@ find ./dir/path -name 'fullFileName.extension'
 You can search and do something with the results:
 ```bash
 find . -type f -iname '*.properties' -exec grep 'property.name' {} \;
+```
+
+## changing the java version in git bush
+
+```bash
+export JAVA_HOME='/c/soft/java/jdk-17.0.2/'
+export PATH=$JAVA_HOME/bin:$PATH
+```
+and checking it out
+
+```bash
+java -version
 ```
 
 ## psql
