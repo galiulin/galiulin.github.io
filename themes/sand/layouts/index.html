@@ -1,6 +1,6 @@
 {{ define "main" }}
-{{ range (where .Site.RegularPages "Type" "posts").ByDate.Reverse }}
 <ul class="post-list">
+  {{ range (where .Site.RegularPages "Type" "posts").ByDate.Reverse }}
   <li class="post-item">
     <span class="post-date">{{ .Date.Format "2006-01-02" }}</span>
     <div>
@@ -10,8 +10,11 @@
         {{ range . }}<span class="tag">{{ . }}</span>{{ end }}
       </div>
       {{ end }}
+      {{ with .Summary }}
+      <p class="post-summary">{{ . }}</p>
+      {{ end }}
     </div>
   </li>
+  {{ end }}
 </ul>
-{{ end }}
 {{ end }}
