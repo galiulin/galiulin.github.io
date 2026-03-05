@@ -5,16 +5,16 @@
     <span class="post-date">{{ .Date.Format "2006-01-02" }}</span>
     <div>
       <a class="post-link" href="{{ .RelPermalink }}">{{ .Title }}</a>
-      {{ with .Params.tags }}
-      <div class="post-tags">
-        {{ range . }}<span class="tag">{{ . }}</span>{{ end }}
-      </div>
-      {{ end }}
       {{ with .Params.description }}
       <p class="post-summary">{{ . }}</p>
       {{ else }}{{ with .Summary }}
       <p class="post-summary">{{ . }}</p>
       {{ end }}{{ end }}
+      {{ with .Params.tags }}
+      <div class="post-tags">
+        {{ range . }}<span class="tag">{{ . }}</span>{{ end }}
+      </div>
+      {{ end }}
     </div>
   </li>
   {{ end }}
