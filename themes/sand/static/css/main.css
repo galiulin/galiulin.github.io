@@ -135,6 +135,12 @@ footer {
   margin-bottom: .5rem;
 }
 
+.post-description {
+  color: var(--muted);
+  font-style: italic;
+  margin-bottom: .5rem;
+}
+
 .post-meta {
   font-size: .82rem;
   color: var(--muted);
