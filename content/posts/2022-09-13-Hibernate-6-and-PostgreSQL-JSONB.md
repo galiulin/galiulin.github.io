@@ -1,6 +1,7 @@
 ---
 title: "Использование jsonb в Hibernate 6"
 date: 2022-09-13
+description: "Как работать с типом JSONB в PostgreSQL через Hibernate 6: аннотация @JdbcTypeCode, маппинг Map и кастомных классов."
 tags:
   - Hibernate
   - Spring Data JPA

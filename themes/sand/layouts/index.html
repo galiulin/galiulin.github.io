@@ -10,9 +10,11 @@
         {{ range . }}<span class="tag">{{ . }}</span>{{ end }}
       </div>
       {{ end }}
-      {{ with .Summary }}
+      {{ with .Params.description }}
       <p class="post-summary">{{ . }}</p>
-      {{ end }}
+      {{ else }}{{ with .Summary }}
+      <p class="post-summary">{{ . }}</p>
+      {{ end }}{{ end }}
     </div>
   </li>
   {{ end }}

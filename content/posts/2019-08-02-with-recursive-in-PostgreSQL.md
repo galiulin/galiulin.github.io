@@ -1,6 +1,7 @@
 ---
 title: "Рекурсивные запросы в PostgreSQL"
 date: 2019-08-02
+description: "Как работают рекурсивные запросы в PostgreSQL через WITH RECURSIVE: синтаксис, алгоритм выполнения и пример запроса."
 tags:
   - PostgreSQL
   - SQL

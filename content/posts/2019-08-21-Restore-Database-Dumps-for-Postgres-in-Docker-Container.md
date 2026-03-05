@@ -1,6 +1,7 @@
 ---
 title: "Restore Database Dumps for Postgres in Docker Container"
 date: 2019-08-21
+description: "Пошаговая инструкция: как скопировать дамп PostgreSQL внутрь Docker-контейнера и развернуть его через pg_restore."
 tags:
   - Docker
   - PostgreSQL

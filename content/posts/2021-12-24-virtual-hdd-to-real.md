@@ -1,6 +1,7 @@
 ---
 title: "Перенос виртуального системного диска на физический"
 date: 2021-12-24
+description: "Как клонировать виртуальный диск VirtualBox (.VHD) на физический HDD или SSD с помощью AOMEI Partition Assistant."
 tags:
   - Windows
   - VirtualBox

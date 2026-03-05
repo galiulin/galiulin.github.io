@@ -1,6 +1,7 @@
 ---
 title: "Docker & Postgres"
 date: 2019-08-19
+description: "Как поднять контейнер с PostgreSQL в Docker, подключиться к нему и создать базу данных."
 tags:
   - Docker
   - PostgreSQL

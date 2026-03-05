@@ -1,6 +1,7 @@
 ---
 title: "Frequently used bash commands"
 date: 2022-10-14
+description: "Шпаргалка по часто используемым командам: find с фильтрами, смена версии Java в Git Bash, подключение к PostgreSQL через psql."
 tags:
   - Bash
   - Linux

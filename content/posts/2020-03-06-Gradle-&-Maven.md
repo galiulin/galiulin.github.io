@@ -1,6 +1,7 @@
 ---
 title: "Gradle & Maven"
 date: 2020-03-06
+description: "Анализ перехода с Maven на Gradle: преимущества, подводные камни с кастомными плагинами и итоги."
 tags:
   - Gradle
   - Maven

@@ -1,6 +1,7 @@
 ---
 title: "@Transactional"
 date: 2022-09-14
+description: "Разбор аннотации @Transactional в Spring: транзакции, уровни изолированности ACID, феномены грязного чтения и фантомов, механизм Proxy."
 tags:
   - Transactional
   - Hibernate
