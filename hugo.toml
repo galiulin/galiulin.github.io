@@ -1,0 +1,13 @@
+baseURL = "https://galiulin.github.io/"
+languageCode = "ru-RU"
+title = "G_Arthur"
+theme = "sand"
+
+[params]
+  description = "Заметки и шпаргалки о том, что изучаю."
+  author = "G_Arthur"
+  github = "galiulin"
+  telegram = "G_Arthur"
+
+[permalinks]
+  posts = "/:year/:month/:slug/"

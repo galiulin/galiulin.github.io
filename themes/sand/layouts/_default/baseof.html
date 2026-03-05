@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language.Lang | default "ru" }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} — {{ .Site.Title }}{{ end }}</title>
+  <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+  <link rel="stylesheet" href="{{ "css/main.css" | relURL }}">
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <a class="site-title" href="{{ "/" | relURL }}">{{ .Site.Title }}</a>
+    <nav>
+      <a href="{{ "/" | relURL }}">Записи</a>
+      <a href="{{ "/about/" | relURL }}">Обо мне</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    {{ block "main" . }}{{ end }}
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    {{ .Site.Params.author }} · {{ now.Year }}
+    {{ with .Site.Params.github }}· <a href="https://github.com/{{ . }}">GitHub</a>{{ end }}
+    {{ with .Site.Params.telegram }}· <a href="https://t.me/{{ . }}">Telegram</a>{{ end }}
+  </div>
+</footer>
+
+</body>
+</html>
