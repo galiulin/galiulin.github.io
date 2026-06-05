@@ -1,10 +1,32 @@
 baseURL = "https://galiulin.github.io/"
-languageCode = "ru-RU"
 title = "G_Arthur"
 theme = "sand"
 
+defaultContentLanguage = "en"
+defaultContentLanguageInSubdir = false
+
+[languages]
+  [languages.en]
+    languageName = "English"
+    languageCode = "en-US"
+    weight = 1
+    contentDir = "content/en"
+    [languages.en.params]
+      description = "Notes and cheat sheets about what I learn."
+      navPosts = "Posts"
+      navAbout = "About"
+
+  [languages.ru]
+    languageName = "Русский"
+    languageCode = "ru-RU"
+    weight = 2
+    contentDir = "content/ru"
+    [languages.ru.params]
+      description = "Заметки и шпаргалки о том, что изучаю."
+      navPosts = "Записи"
+      navAbout = "Обо мне"
+
 [params]
-  description = "Заметки и шпаргалки о том, что изучаю."
   author = "G_Arthur"
   github = "galiulin"
   telegram = "G_Arthur"

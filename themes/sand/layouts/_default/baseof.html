@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ .Site.Language.Lang | default "ru" }}">
+<html lang="{{ .Site.Language.Lang }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,10 +11,34 @@
 
 <header>
   <div class="container">
-    <a class="site-title" href="{{ "/" | relURL }}">{{ .Site.Title }}</a>
+    <a class="site-title" href="{{ "/" | relLangURL }}">{{ .Site.Title }}</a>
     <nav>
-      <a href="{{ "/" | relURL }}">Записи</a>
-      <a href="{{ "/about/" | relURL }}">Обо мне</a>
+      <a href="{{ "/" | relLangURL }}">{{ .Site.Params.navPosts }}</a>
+      <a href="{{ "/about/" | relLangURL }}">{{ .Site.Params.navAbout }}</a>
+      <div class="lang-switcher">
+        <span class="lang-current">{{ .Site.Language.Lang }}</span>
+        <ul class="lang-dropdown">
+          {{ range .Site.Languages }}
+            {{ $targetLang := .Lang }}
+            {{ $currentLang := $.Site.Language.Lang }}
+            {{ $rel := $.RelPermalink }}
+            {{ $href := "" }}
+            {{ if eq $currentLang "en" }}
+              {{ $href = printf "/ru%s" $rel }}
+            {{ else }}
+              {{ $href = $rel | replaceRE "^/ru" "" }}
+              {{ if eq $href "" }}{{ $href = "/" }}{{ end }}
+            {{ end }}
+            <li{{ if eq . $.Site.Language }} class="active"{{ end }}>
+              {{ if eq . $.Site.Language }}
+                <span>{{ .Lang }}</span>
+              {{ else }}
+                <a href="{{ $href }}">{{ .Lang }}</a>
+              {{ end }}
+            </li>
+          {{ end }}
+        </ul>
+      </div>
     </nav>
   </div>
 </header>

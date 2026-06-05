@@ -69,6 +69,62 @@ nav a {
 }
 nav a:hover { color: var(--accent); text-decoration: none; }
 
+.lang-switcher {
+  position: relative;
+  margin-left: 1.25rem;
+  border-left: 1px solid var(--border);
+  padding-left: 1.25rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.lang-current {
+  font-size: .8rem;
+  font-family: 'Courier New', monospace;
+  color: var(--muted);
+  letter-spacing: .06em;
+}
+
+.lang-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + .5rem);
+  right: 0;
+  list-style: none;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: .25rem 0;
+  min-width: 3.5rem;
+  z-index: 100;
+}
+
+.lang-switcher:hover .lang-dropdown,
+.lang-switcher:focus-within .lang-dropdown {
+  display: block;
+}
+
+.lang-dropdown li {
+  padding: .2rem .65rem;
+  font-size: .8rem;
+  font-family: 'Courier New', monospace;
+  letter-spacing: .06em;
+}
+
+.lang-dropdown li a {
+  color: var(--muted);
+  display: block;
+}
+.lang-dropdown li a:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.lang-dropdown li.active span {
+  color: var(--accent);
+  font-weight: bold;
+}
+
 /* ─── Footer ──────────────────────────────────────────── */
 footer {
   border-top: 1px solid var(--border);
