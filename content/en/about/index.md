@@ -12,4 +12,3 @@ I write for myself, I don't claim to be complete or authoritative.
 - **Telegram:** [G_Arthur](https://t.me/G_Arthur)
 - **Email:** Galiulin.Arthur@gmail.com
 - **GitHub:** [galiulin](https://github.com/galiulin)
-- **Location:** Russia, Moscow / Innopolis

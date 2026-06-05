@@ -12,4 +12,3 @@ layout: page
 - **Telegram:** [G_Arthur](https://t.me/G_Arthur)
 - **Email:** Galiulin.Arthur@gmail.com
 - **GitHub:** [galiulin](https://github.com/galiulin)
-- **Местонахождение:** Россия, Москва / Иннополис
