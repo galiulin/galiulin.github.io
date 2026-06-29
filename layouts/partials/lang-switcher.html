@@ -1,0 +1,27 @@
+{{/*
+  Language switcher as a hover-dropdown.
+  Shows the current language; other languages are revealed on hover.
+*/}}
+{{- if gt (len .Site.Home.AllTranslations) 1 -}}
+  {{- $currentLang := .Site.Language.Lang -}}
+  <div class="lang-switcher">
+    <button type="button" class="lang-current" aria-haspopup="true" aria-expanded="false">
+      {{- $currentLang -}}
+      <svg class="lang-caret" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true">
+        <path d="M2 4 L5 7 L8 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <ul class="lang-dropdown" role="menu">
+      {{- range .Site.Home.AllTranslations -}}
+        {{- $isActive := eq .Language.Lang $currentLang -}}
+        <li role="none">
+          {{- if $isActive -}}
+            <span class="lang-link active" role="menuitem" aria-current="true">{{ .Language.Lang }}</span>
+          {{- else -}}
+            <a class="lang-link" role="menuitem" href="{{ .RelPermalink }}" hreflang="{{ .Language.Lang }}" lang="{{ .Language.Lang }}">{{ .Language.Lang }}</a>
+          {{- end -}}
+        </li>
+      {{- end -}}
+    </ul>
+  </div>
+{{- end -}}
