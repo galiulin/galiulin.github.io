@@ -86,13 +86,18 @@
 
 ### Фаза 4a — Mermaid (базовый PaperModX)
 
-- [ ] Скачать `mermaid.min.js` → `static/js/mermaid.min.js`
-- [ ] Создать `layouts/_default/_markup/render-codeblock-mermaid.html`:
+- [x] Скачать `mermaid.min.js` → `assets/js/mermaid.min.js` (v11, ~3.5 MB)
+- [x] Создать `layouts/_default/_markup/render-codeblock-mermaid.html`:
       рендерит `<pre class="mermaid">…</pre>` из блока ` ```mermaid `
-- [ ] Создать `layouts/partials/mermaid.html`:
-      подключает скрипт и инициализирует `mermaid.initialize({startOnLoad:true})`
-- [ ] Подключить partial в `layouts/_default/single.html` или через `head`
-- [ ] Проверить на `content/{ru,en}/posts/2026-05-20-flow-lifecycle-guide.md`
+- [x] Создать `layouts/partials/mermaid.html`:
+      подключает `mermaid.min.js` + `mermaid-init.js` через `resources.Get`
+      + `js.Build` + fingerprint (только при наличии `<pre class="mermaid">` в `.Content`)
+- [x] Оверрайд `layouts/_default/single.html`: расширяет `body_end` блок,
+      `main` блок — копия из темы
+- [x] Init-скрипт `assets/js/mermaid-init.js`: использует `globalThis.mermaid`,
+      реагирует на `instantclick:newpage` для InstantClick-совместимости,
+      поддерживает смену темы (light/dark)
+- [x] Проверить на `content/{ru,en}/posts/2026-05-20-flow-lifecycle-guide.md` — OK
 
 ### Фаза 4b — KaTeX (базовый PaperModX)
 
@@ -160,9 +165,17 @@
 
 ### Сессия 4 — 2026-06-29
 - Уточнена стратегия переводов: en-посты становятся первичными
-- Завершена Фаза 3 (частично): search/archives добавлены, TOC работает,
+- Завершена Фаза 3: search/archives добавлены, TOC работает,
   frontmatter в порядке
-- Открыто: mermaid-partial (Фаза 4)
+- Начата Фаза 4: Mermaid. Скачан mermaid v11, написаны render-hook,
+  init-скрипт с поддержкой InstantClick и смены темы, partial с условной
+  загрузкой через `resources.Get`. Оверрайднут single.html для расширения
+  `body_end` блока.
+- **Важно:** при оверрайде single.html пришлось скопировать `main` блок
+  из темы — иначе Hugo отдаёт пустые страницы (контент не рендерится).
+  Это создаёт точку синхронизации с апстримом, зафиксировано в коде.
+- Коммит `607f2377`
+- **Открыто:** KaTeX (Фаза 4b), внешний вид (Фаза 5), CI submodules (Фаза 6)
 - Завершены Фазы 1 + 2 (объединены, т.к. конфиг переписывался целиком)
 - PaperModX подключён как submodule (`846feebb`)
 - Локальная сборка `hugo` проходит, EN+RU обе локали отдают страницы
