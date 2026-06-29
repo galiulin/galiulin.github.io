@@ -147,3 +147,14 @@ function toggleThemeListener() {
         {{- partial "lang-switcher.html" . }}
     </nav>
 </header>
+{{- $langJs := resources.Get "js/lang-switcher.js" -}}
+{{- if hugo.IsProduction -}}
+  {{- $langJs = $langJs | js.Build (dict "minify" true) | fingerprint -}}
+{{- else -}}
+  {{- $langJs = $langJs | js.Build (dict "minify" false) | fingerprint -}}
+{{- end -}}
+<script defer src="{{ $langJs.RelPermalink }}"
+  {{- if not site.Params.assets.disableFingerprinting }}
+    integrity="{{ $langJs.Data.Integrity }}"
+  {{- end -}}
+></script>

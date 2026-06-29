@@ -260,8 +260,7 @@ button:focus-visible {
   display: none;
 }
 
-.lang-switcher:hover .lang-dropdown,
-.lang-switcher:focus-within .lang-dropdown {
+.lang-switcher .lang-current[aria-expanded="true"] + .lang-dropdown {
   display: block;
 }
 
