@@ -36,10 +36,11 @@ defaultContentLanguageInSubdir = false
   ShowPostNavLinks = true
   ShowBreadCrumbs = true
   ShowCodeCopyButtons = true
+  disableSpecial1stPost = true
   ShowToc = true
   TocOpen = false
   TocSide = "right"
-  EnableInstantClick = true
+  EnableInstantClick = false
   EnableImageZoom = true
   displayFullLangName = true
   mainSections = ["posts"]
@@ -54,7 +55,7 @@ defaultContentLanguageInSubdir = false
 
 [languages]
   [languages.en]
-    languageName = "English"
+    languageName = "en"
     languageCode = "en-US"
     weight = 1
     contentDir = "content/en"
@@ -69,7 +70,7 @@ defaultContentLanguageInSubdir = false
       ]
 
   [languages.ru]
-    languageName = "Русский"
+    languageName = "ru"
     languageAltTitle = "RU"
     languageCode = "ru-RU"
     weight = 2
