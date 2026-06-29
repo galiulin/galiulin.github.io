@@ -29,11 +29,11 @@
 
 ## Фаза 0 — Подготовка
 
-- [ ] Создать ветку `feat/papermodx` от `master`
-- [ ] Удалить `themes/sand/` (`git rm -r themes/sand`, коммит)
-- [ ] Удалить `_posts/` (`git rm -r _posts`, коммит)
-- [ ] Удалить осиротевший submodule `hugo-theme-cleanwhite` (deinit + rm)
-- [ ] Удалить `.hugo_build.lock` (он в .gitignore, но физически мешает)
+- [x] Создать ветку `feat/papermodx` от `master`
+- [x] Удалить `themes/sand/` (`git rm -r themes/sand`, коммит)
+- [x] Удалить `_posts/` (`git rm -r _posts`, коммит)
+- [x] Удалить осиротевший submodule `hugo-theme-cleanwhite` (deinit + rm)
+- [x] Удалить `.hugo_build.lock` (его нет в репо, в .gitignore)
 
 ## Фаза 1 — Установка темы
 
@@ -149,4 +149,6 @@
 
 ### Сессия 2 — 2026-06-29
 - Зафиксированы решения: базовый PaperModX + Nord, локали ru+en
-- Начата Фаза 0: подготовка
+- Завершена Фаза 0: создана ветка `feat/papermodx`, удалены `themes/sand/`, `_posts/`,
+  ghost-submodule `hugo-theme-cleanwhite`
+- Коммит `a26715d1`
