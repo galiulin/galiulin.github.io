@@ -37,26 +37,33 @@
 
 ## Фаза 1 — Установка темы
 
-- [ ] `git submodule add https://github.com/reorx/hugo-PaperModX.git themes/PaperModX`
-- [ ] В `hugo.toml`: `theme = "sand"` → `theme = "PaperModX"`
-- [ ] Проверить локальную сборку: `hugo server -D`
-- [ ] Если падает — фиксить, прежде чем идти дальше
+- [x] `git submodule add https://github.com/reorx/hugo-PaperModX.git themes/PaperModX`
+- [x] В `hugo.toml`: `theme = "sand"` → `theme = "PaperModX"`
+- [x] Проверить локальную сборку: `hugo` ✅ собирается
 
 ## Фаза 2 — Конфигурация (`hugo.toml`)
 
-- [ ] Скопировать структуру из `themes/PaperModX/exampleSite/config.default.yml`
-- [ ] Адаптировать под двуязычный сайт (ru + en)
-- [ ] Включить фичи: `ShowToc`, `ShowCodeCopyButtons`, `ShowReadingTime`,
-      `ShowPostNavLinks`, `ShowBreadCrumbs`, `defaultTheme = "auto"`,
-      `TocSide = "right"`, `EnableInstantClick`, `EnableImageZoom`
-- [ ] `markup.goldmark.renderer.unsafe = true` (для якорей и mermaid)
-- [ ] `markup.highlight.style = "monokai"` (или `github`/`nord`)
-- [ ] `enableRobotsTXT = true`
-- [ ] `outputs.home = ["HTML", "RSS", "JSON"]`
-- [ ] `paginate = 10`
-- [ ] Социальные иконки: github, telegram, rss (`socialIcons` через Simple Icons)
-- [ ] `editPost.URL` → `https://github.com/galiulin/galiulin.github.io/edit/master/content`
-- [ ] Проверить: `hugo server` — обе локали открываются, переключатель языков работает
+- [x] Переписан `hugo.toml` целиком под PaperModX + i18n
+- [x] `paginate = 10`, `enableRobotsTXT`, `enableInlineShortcodes`
+- [x] `outputs.home = ["HTML", "RSS", "JSON"]`
+- [x] Фичи: `ShowToc`, `ShowCodeCopyButtons`, `ShowReadingTime`, `ShowPostNavLinks`,
+      `ShowBreadCrumbs`, `TocSide = "right"`, `EnableInstantClick`, `EnableImageZoom`,
+      `defaultTheme = "auto"`, `displayFullLangName`
+- [x] `markup.goldmark.renderer.unsafe = true`
+- [x] `markup.highlight.style = "nord"`
+- [x] `socialIcons` (github, telegram, rss), `editPost`
+- [x] `menu.main` для обеих локалей (Archive/Tags/Search/About)
+
+### Обнаружено и зафиксировано: несовместимость PaperModX ↔ Hugo 0.157
+
+В Hugo 0.156+ удалены/депрекейтнуты API, которые PaperModX ещё использует.
+Сделаны оверрайды в нашем `layouts/`:
+
+- `layouts/partials/social_quote_tweet.html` — no-op (использовал `getJSON`)
+- `layouts/shortcodes/tweet-ref.html` — no-op (использовал `getJSON`)
+- `layouts/_default/rss.xml` — вырезаны упоминания `site.Author.*` (deprecated)
+
+Эти шорткоды/partial'ы в блоге не используются → безопасные no-op.
 
 ## Фаза 3 — Контентные страницы (features PaperModX)
 
@@ -147,8 +154,15 @@
 
 ## Лог сессий
 
-### Сессия 2 — 2026-06-29
-- Зафиксированы решения: базовый PaperModX + Nord, локали ru+en
-- Завершена Фаза 0: создана ветка `feat/papermodx`, удалены `themes/sand/`, `_posts/`,
-  ghost-submodule `hugo-theme-cleanwhite`
-- Коммит `a26715d1`
+### Сессия 3 — 2026-06-29
+- Завершены Фазы 1 + 2 (объединены, т.к. конфиг переписывался целиком)
+- PaperModX подключён как submodule (`846feebb`)
+- Локальная сборка `hugo` проходит, EN+RU обе локали отдают страницы
+- Зафиксирована несовместимость PaperModX с Hugo 0.157:
+  удалены `getJSON`/`data.GetJSON`, депрекейтнуты `site.Author.*`.
+  Сделаны оверрайды в `layouts/` (no-op для tweet-partial'ов, RSS без Author)
+- Меню в шапке (Archive/Tags/Search/About) работает для обеих локалей
+- OG / Twitter / canonical / hreflang / RSS / JSON — генерируются автоматически
+- Коммит `257b4116`
+- **Открыто:** пост про Flow содержит ` ```mermaid `, рендерится как обычный код →
+  подключение partial'а в Фазе 4
