@@ -1,0 +1,207 @@
+/* ==========================================================================
+   Nord palette overrides for PaperModX
+   https://www.nordtheme.com/
+   ========================================================================== */
+
+/* ---------- Light theme ---------- */
+:root {
+  --gap: 24px;
+  --content-gap: 20px;
+
+  --theme: #eceff4;               /* nord6 — page background */
+  --entry: #e5e9f0;               /* nord5 — card background */
+  --primary: #2e3440;             /* nord0 — main text */
+  --primary-dim: #3b4252;         /* nord1 */
+  --secondary: #4c566a;           /* nord3 — secondary text */
+  --tertiary: #6f7a8a;            /* muted */
+  --tertiary-bg: #d8dee9;         /* nord4 — badges, tags */
+  --content: #2e3440;             /* nord0 — body text */
+  --code-bg: #2e3440;             /* nord0 — code blocks (matches chroma) */
+  --border: #d8dee9;              /* nord4 */
+
+  /* Links: deep frost blue */
+  --link-background-color: transparent;
+  --link-color: #5e81ac;          /* nord10 */
+  --link-hover-color: #81a1c1;    /* nord9 */
+  --link-underline-shadow: 0 1px 0 var(--link-color);
+  --link-hover-underline-color: #81a1c1;
+  --link-hover-underline-shadow: 0 2px 0 var(--link-hover-underline-color);
+
+  /* Code font: prefer locally installed monospace fallbacks */
+  --monospace: "JetBrains Mono", "Fira Code", "SF Mono", "Cascadia Mono",
+               ui-monospace, Menlo, Consolas, monospace;
+
+  /* Layout */
+  --main-width: 760px;
+  --post-width: 820px;
+
+  /* Body font: native UI stack (no webfonts) */
+  --sys-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                     "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+  font-family: var(--sys-font-family);
+  letter-spacing: -0.005em;
+}
+
+/* ---------- Dark theme (body.dark set by PaperModX toggle) ---------- */
+.dark {
+  --theme: #2e3440;               /* nord0 — page background */
+  --entry: #3b4252;               /* nord1 — card background */
+  --primary: #eceff4;             /* nord6 — main text */
+  --primary-dim: #e5e9f0;         /* nord5 */
+  --secondary: #d8dee9;           /* nord4 — secondary text */
+  --tertiary: #8a93a3;
+  --tertiary-bg: #434c5e;         /* nord2 */
+  --content: #e5e9f0;             /* nord5 — body text */
+  --code-bg: #3b4252;             /* nord1 — slightly lighter than page */
+  --border: #434c5e;              /* nord2 */
+
+  --link-color: #88c0d0;          /* nord8 — bright on dark */
+  --link-hover-color: #8fbcbb;    /* nord7 */
+  --link-underline-shadow: 0 1px 0 var(--link-color);
+  --link-hover-underline-color: #8fbcbb;
+  --link-hover-underline-shadow: 0 2px 0 var(--link-hover-underline-color);
+}
+
+/* ---------- Code blocks: keep them Nord-styled in both themes ---------- */
+.post-content pre {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.post-content code {
+  font-size: 0.88em;
+}
+
+/* Override PaperModX chroma colors with Nord palette.
+   Selector .post-content .chroma .k has higher specificity than the
+   theme's .chroma .k, so it wins without !important. */
+.post-content .chroma {
+  background-color: var(--code-bg);
+  color: #d8dee9; /* nord4 */
+  border-radius: 6px;
+}
+
+.dark .post-content .chroma {
+  background-color: var(--code-bg);
+  color: #d8dee9;
+}
+
+/* Keyword family — nord9 / nord10 */
+.post-content .chroma .k,
+.post-content .chroma .kc,
+.post-content .chroma .kd,
+.post-content .chroma .kn,
+.post-content .chroma .kp,
+.post-content .chroma .kr,
+.post-content .chroma .kt,
+.post-content .chroma .o,
+.post-content .chroma .ow {
+  color: #81a1c1; font-weight: 600;
+}
+/* Built-in names, types — nord8 */
+.post-content .chroma .nb,
+.post-content .chroma .nf,
+.post-content .chroma .nc,
+.post-content .chroma .nl,
+.post-content .chroma .nt {
+  color: #8fbcbb;
+}
+/* Strings — nord14 */
+.post-content .chroma .s,
+.post-content .chroma .s1,
+.post-content .chroma .s2,
+.post-content .chroma .sa,
+.post-content .chroma .sb,
+.post-content .chroma .sc,
+.post-content .chroma .dl,
+.post-content .chroma .sd,
+.post-content .chroma .se,
+.post-content .chroma .sh,
+.post-content .chroma .si,
+.post-content .chroma .sx,
+.post-content .chroma .sr,
+.post-content .chroma .ss {
+  color: #a3be8c;
+}
+/* Numbers — nord15 */
+.post-content .chroma .m,
+.post-content .chroma .mb,
+.post-content .chroma .mf,
+.post-content .chroma .mh,
+.post-content .chroma .mi,
+.post-content .chroma .il,
+.post-content .chroma .mo {
+  color: #b48ead;
+}
+/* Comments — nord3 / nord4 muted */
+.post-content .chroma .c,
+.post-content .chroma .c1,
+.post-content .chroma .ch,
+.post-content .chroma .cm,
+.post-content .chroma .cp,
+.post-content .chroma .cpf,
+.post-content .chroma .cs {
+  color: #616e88; font-style: italic;
+}
+/* Functions, methods — nord7 */
+.post-content .chroma .fm,
+.post-content .chroma .na { color: #8fbcbb; }
+/* Errors — nord11 */
+.post-content .chroma .err { color: #bf616a; }
+
+/* Inline code in light theme needs contrast against light page */
+:root:not(.dark) .post-content :not(pre) > code {
+  background: #e5e9f0;
+  color: #5e81ac;
+  padding: 0.12em 0.4em;
+  border-radius: 4px;
+}
+
+.dark .post-content :not(pre) > code {
+  background: #434c5e;
+  color: #88c0d0;
+  padding: 0.12em 0.4em;
+  border-radius: 4px;
+}
+
+/* ---------- Tag pills ---------- */
+.post-tags a,
+.first-entry .post-tags a,
+.post-entry .post-tags a {
+  background: var(--tertiary-bg);
+  color: var(--primary);
+  border: 1px solid var(--border);
+}
+
+.post-tags a:hover {
+  background: var(--link-color);
+  color: var(--theme);
+}
+
+/* ---------- Table styling ---------- */
+.post-content table {
+  border: 1px solid var(--border);
+}
+
+.post-content th {
+  background: var(--entry);
+  font-weight: 600;
+}
+
+/* ---------- First-entry / hero on home ---------- */
+.first-entry {
+  background: var(--entry);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+/* ---------- Subtle borders on focus rings ---------- */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--link-color);
+  outline-offset: 2px;
+  border-radius: 3px;
+}

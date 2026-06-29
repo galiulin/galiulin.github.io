@@ -101,10 +101,7 @@
 
 ### Фаза 4b — KaTeX (базовый PaperModX)
 
-- [ ] Скачать `katex.min.js`, `katex.min.css`, `auto-render.min.js` → `static/`
-- [ ] Создать `layouts/partials/math.html` с подключением
-- [ ] Включать partial при `math: true` в frontmatter
-- [ ] Проверить на тестовой формуле
+- [ ] **ОТЛОЖЕНО** — в блоге пока нет формул. Включается по запросу.
 
 ## Фаза 5 — Внешний вид
 
@@ -163,7 +160,16 @@
 
 ## Лог сессий
 
-### Сессия 4 — 2026-06-29
+### Сессия 5 — 2026-06-29
+- Визуальная проверка: поднят `hugo server` на порту 4123,
+  сняты 7 скриншотов через puppeteer-core + Chrome 149 в headless-режиме.
+  Скриншоты сохранены в `.shots/` (в .gitignore)
+- **Mermaid проверен:** на обоих постах про Flow `<pre class="mermaid">`
+  заменён на `<svg id="mermaid-...">` после рендера — `svg=1, pre_remaining=0`
+- Headless Chrome не дожидался асинхронного `mermaid.render()` даже с
+  `virtual-time-budget=30s`. Puppeteer с явным `waitForFunction` решил проблему.
+- Сервер остановлен, `.shots/` добавлен в `.gitignore`
+- KaTeX отложен до появления формул в постах
 - Уточнена стратегия переводов: en-посты становятся первичными
 - Завершена Фаза 3: search/archives добавлены, TOC работает,
   frontmatter в порядке
