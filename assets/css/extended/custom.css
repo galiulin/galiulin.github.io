@@ -208,34 +208,4 @@ button:focus-visible {
   border-radius: 3px;
 }
 
-/* ---------- Language switcher ---------- */
-.lang-switcher {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  margin-left: 1rem;
-  padding-left: 1rem;
-  border-left: 1px solid var(--border);
-  font-size: 0.85rem;
-  font-family: var(--monospace);
-  letter-spacing: 0.06em;
-  text-transform: lowercase;
-}
-
-.lang-switcher .lang-current {
-  color: var(--link-color);
-  font-weight: 600;
-}
-
-.lang-switcher .lang-link {
-  color: var(--secondary);
-  text-decoration: none;
-}
-
-.lang-switcher .lang-link:hover {
-  color: var(--link-hover-color);
-}
-
-.lang-switcher .lang-sep {
-  color: var(--border);
-}
+/* ---------- Language switcher ---------- (removed) */
