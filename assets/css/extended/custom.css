@@ -214,8 +214,8 @@ button:focus-visible {
   display: inline-flex;
   align-items: center;
   margin-left: 1rem;
-  padding-left: 1rem;
-  border-left: 1px solid var(--border);
+  padding-left: 0;
+  border-left: none;
   font-family: var(--monospace);
   font-size: 0.85rem;
   letter-spacing: 0.06em;
@@ -247,7 +247,7 @@ button:focus-visible {
 
 .lang-switcher .lang-dropdown {
   position: absolute;
-  top: calc(100% + 0.25rem);
+  top: 100%;
   right: 0;
   list-style: none;
   margin: 0;
