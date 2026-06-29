@@ -1,0 +1,6 @@
+{{/*
+  Custom render hook for code blocks with language "mermaid".
+  Wraps the code in <pre class="mermaid"> so the mermaid runtime
+  (assets/js/mermaid-init.js) can find it and replace with SVG.
+*/}}
+<pre class="mermaid">{{ .Inner }}</pre>
