@@ -105,20 +105,23 @@
 
 ## Фаза 5 — Внешний вид
 
-- [ ] Создать `assets/css/extended/custom.css`
-- [ ] Палитра: Nord (`#2e3440` фон, `#88c0d0` акцент) или своя
-- [ ] Шрифт кода: `JetBrains Mono` локально через `@font-face`
-- [ ] Шрифт UI: системный sans-serif (`-apple-system, …`)
-- [ ] Подкрутить `--post-width: 860px` (если Nord-стиль, оставить 800)
-- [ ] Favicon: `static/favicon.svg` + `params.assets.favicon`
-- [ ] OG-картинка по умолчанию: `static/og-default.png` 1200×630
+- [x] Создать `assets/css/extended/custom.css` — Nord-палитра
+- [x] Палитра: Nord (light nord6 фон/nord10 ссылки, dark nord0 фон/nord8 ссылки)
+- [x] Шрифт кода: системный моно-стек с JetBrains Mono/Fira Code в приоритете
+- [x] Шрифт UI: системный sans-serif (`-apple-system, …`)
+- [x] Подкрутить `--main-width: 760px`, `--post-width: 820px`
+- [x] Nord chroma: через повышение специфичности `.post-content .chroma .k`
+      в extended (т.к. sass-резолвер Hugo идёт в файлы темы напрямую,
+      `assets/css/lib/` не подменяется)
+- [ ] Favicon: `static/favicon.svg` + `params.assets.favicon` — отложено
+- [ ] OG-картинка по умолчанию: `static/og-default.png` 1200×630 — отложено
 
 ## Фаза 6 — CI/CD
 
-- [ ] В `.github/workflows/hugo.yml` к шагу `actions/checkout@v4` добавить `with: submodules: true`
-- [ ] Проверить: локальный `hugo --minify` собирается без ошибок
-- [ ] Push в `feat/papermodx`, дождаться зелёного деплоя в Actions
-- [ ] Проверить https://galiulin.github.io в инкогнито
+- [x] В `.github/workflows/hugo.yml` к шагу `actions/checkout@v4` добавить `with: submodules: recursive`
+- [x] Проверить: локальный `hugo --minify` собирается без ошибок
+- [ ] Push в `feat/papermodx`, дождаться зелёного деплоя в Actions — пользователь пушит сам
+- [ ] Проверить https://galiulin.github.io в инкогнито — после пуша
 
 ## Фаза 7 — Документация
 
@@ -161,7 +164,7 @@
 ## Лог сессий
 
 ### Сессия 5 — 2026-06-29
-- Визуальная проверка: поднят `hugo server` на порту 4123,
+- Визуальная проверка v1: поднят `hugo server` на порту 4123,
   сняты 7 скриншотов через puppeteer-core + Chrome 149 в headless-режиме.
   Скриншоты сохранены в `.shots/` (в .gitignore)
 - **Mermaid проверен:** на обоих постах про Flow `<pre class="mermaid">`
@@ -170,6 +173,16 @@
   `virtual-time-budget=30s`. Puppeteer с явным `waitForFunction` решил проблему.
 - Сервер остановлен, `.shots/` добавлен в `.gitignore`
 - KaTeX отложен до появления формул в постах
+
+### Сессия 6 — 2026-06-29
+- Завершена Фаза 5: Nord-палитра через `assets/css/extended/custom.css`,
+  chroma-цвета перекрыты через `.post-content .chroma .k` (специфичность
+  выше темы, без `!important`).
+- Сделано 8 скриншотов v2 (light/dark, главная/пост/теги/архив) — в `.shots/`
+- Завершена Фаза 6: добавлен `submodules: recursive` в `actions/checkout@v4`
+- Коммиты `eaa42a8c` (Nord), `5e6b3473` (CI)
+- **Открыто:** favicon и OG-картинка (отложено), деплой после пуша пользователем,
+  Финальная Фаза 7 — обновление `BLOG.md`
 - Уточнена стратегия переводов: en-посты становятся первичными
 - Завершена Фаза 3: search/archives добавлены, TOC работает,
   frontmatter в порядке
