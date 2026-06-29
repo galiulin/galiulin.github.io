@@ -16,7 +16,8 @@
   --tertiary: #6f7a8a;            /* muted */
   --tertiary-bg: #d8dee9;         /* nord4 — badges, tags */
   --content: #2e3440;             /* nord0 — body text */
-  --code-bg: #2e3440;             /* nord0 — code blocks (matches chroma) */
+  --code-bg: #d8dee9;             /* nord4 — PaperModX uses this for list-page bg + scrollbar; keep light */
+  --nord-code-bg: #2e3440;        /* nord0 — actual code blocks in light theme */
   --border: #d8dee9;              /* nord4 */
 
   /* Links: deep frost blue */
@@ -55,7 +56,8 @@ body {
   --tertiary: #8a93a3;
   --tertiary-bg: #434c5e;         /* nord2 */
   --content: #e5e9f0;             /* nord5 — body text */
-  --code-bg: #3b4252;             /* nord1 — slightly lighter than page */
+  --code-bg: #3b4252;             /* nord1 — PaperModX list-page + scrollbar */
+  --nord-code-bg: #3b4252;        /* nord1 — code blocks in dark theme */
   --border: #434c5e;              /* nord2 */
 
   --link-color: #88c0d0;          /* nord8 — bright on dark */
@@ -79,13 +81,13 @@ body {
    Selector .post-content .chroma .k has higher specificity than the
    theme's .chroma .k, so it wins without !important. */
 .post-content .chroma {
-  background-color: var(--code-bg);
+  background-color: var(--nord-code-bg);
   color: #d8dee9; /* nord4 */
   border-radius: 6px;
 }
 
 .dark .post-content .chroma {
-  background-color: var(--code-bg);
+  background-color: var(--nord-code-bg);
   color: #d8dee9;
 }
 
