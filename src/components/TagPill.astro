@@ -1,0 +1,21 @@
+---
+import type { Lang } from "../i18n/ui";
+import { localeUrl } from "../i18n/urls";
+import { tagSlug } from "../lib/posts";
+
+interface Props {
+  tag: string;
+  lang: Lang;
+  count?: number;
+}
+
+const { tag, lang, count } = Astro.props;
+---
+
+<a
+  href={localeUrl(lang, `tags/${tagSlug(tag)}`)}
+  class="inline-flex items-center gap-1 rounded border border-border px-2 py-0.5 font-mono text-xs text-muted transition-colors hover:border-accent-dim hover:text-accent"
+>
+  {tag}
+  {count !== undefined && <span class="text-[10px] opacity-70">{count}</span>}
+</a>

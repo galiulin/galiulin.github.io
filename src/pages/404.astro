@@ -1,0 +1,25 @@
+---
+import { useTranslations } from "../i18n/ui";
+import { alternatesFor, localeUrl } from "../i18n/urls";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+// GitHub Pages serves a single 404 page for the whole site, so it stays in English
+// with a link to the blog of either language.
+const t = useTranslations("en");
+---
+
+<BaseLayout lang="en" title={t("404.title")} alternates={alternatesFor("blog")}>
+  <div class="py-16">
+    <p class="font-mono text-sm text-accent">404</p>
+    <h1 class="mt-2 text-2xl font-semibold text-strong">{t("404.title")}</h1>
+    <p class="mt-3 max-w-lg text-muted">{t("404.text")}</p>
+    <div class="mt-6 flex gap-4 font-mono text-xs">
+      <a href={localeUrl("en", "blog")} class="text-accent transition-colors hover:text-strong">
+        {t("404.back")} (EN)
+      </a>
+      <a href={localeUrl("ru", "blog")} class="text-accent transition-colors hover:text-strong">
+        Записи (RU)
+      </a>
+    </div>
+  </div>
+</BaseLayout>

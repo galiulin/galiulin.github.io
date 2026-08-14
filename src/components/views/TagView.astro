@@ -1,0 +1,49 @@
+---
+import { langs, useTranslations, type Lang } from "../../i18n/ui";
+import { localeUrl, type Alternates } from "../../i18n/urls";
+import { collectTags, getPosts, type Post } from "../../lib/posts";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../Breadcrumbs.astro";
+import PostCard from "../PostCard.astro";
+
+interface Props {
+  lang: Lang;
+  tag: string;
+  slug: string;
+  posts: Post[];
+}
+
+const { lang, tag, slug, posts } = Astro.props;
+const t = useTranslations(lang);
+
+// A tag only used in one language has no page in the other one.
+const alternates = Object.fromEntries(
+  await Promise.all(
+    langs.map(async (code) => {
+      const exists =
+        code === lang || collectTags(await getPosts(code)).some((other) => other.slug === slug);
+      return exists
+        ? [code, { href: localeUrl(code, `tags/${slug}`), translated: true }]
+        : [code, { href: localeUrl(code, "tags"), translated: false }];
+    }),
+  ),
+) as Alternates;
+---
+
+<BaseLayout lang={lang} title={`${t("tags.tagged")}: ${tag}`} alternates={alternates}>
+  <Breadcrumbs
+    items={[
+      { label: t("nav.home"), href: localeUrl(lang) },
+      { label: t("tags.title"), href: localeUrl(lang, "tags") },
+      { label: tag },
+    ]}
+  />
+
+  <h1 class="text-2xl font-semibold text-strong">
+    <span class="text-muted">{t("tags.tagged")}:</span> {tag}
+  </h1>
+
+  <div class="mt-8 max-w-3xl">
+    {posts.map((post) => <PostCard post={post} lang={lang} />)}
+  </div>
+</BaseLayout>

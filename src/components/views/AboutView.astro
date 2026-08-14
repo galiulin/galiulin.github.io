@@ -1,0 +1,27 @@
+---
+import { getEntry, render } from "astro:content";
+import type { Lang } from "../../i18n/ui";
+import { alternatesFor } from "../../i18n/urls";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const entry = await getEntry("pages", `${lang}/about`);
+if (!entry) throw new Error(`Missing src/content/pages/${lang}/about.md`);
+const { Content } = await render(entry);
+---
+
+<BaseLayout
+  lang={lang}
+  title={entry.data.title}
+  description={entry.data.description}
+  alternates={alternatesFor("about")}
+>
+  <h1 class="text-2xl font-semibold text-strong">{entry.data.title}</h1>
+  <div class="prose mt-8 max-w-2xl">
+    <Content />
+  </div>
+</BaseLayout>

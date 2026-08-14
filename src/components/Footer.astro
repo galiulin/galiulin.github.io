@@ -1,0 +1,27 @@
+---
+import { SITE } from "../consts";
+import { useTranslations, type Lang } from "../i18n/ui";
+import { feedUrl } from "../i18n/urls";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const rss = feedUrl(lang);
+---
+
+<footer class="mt-20 border-t border-border">
+  <div
+    class="mx-auto flex max-w-5xl flex-col gap-3 px-4 py-8 font-mono text-xs text-muted sm:flex-row sm:items-center sm:justify-between sm:px-6"
+  >
+    <p>© {new Date().getFullYear()} {SITE.author}</p>
+    <nav class="flex flex-wrap gap-4" aria-label="footer">
+      <a class="transition-colors hover:text-accent" href={rss}>{t("footer.rss")}</a>
+      <a class="transition-colors hover:text-accent" href={SITE.social.github}>GitHub</a>
+      <a class="transition-colors hover:text-accent" href={SITE.social.telegram}>Telegram</a>
+      <a class="transition-colors hover:text-accent" href={`mailto:${SITE.social.email}`}>Email</a>
+    </nav>
+  </div>
+</footer>

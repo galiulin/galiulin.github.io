@@ -1,0 +1,41 @@
+---
+import { SITE } from "../../consts";
+import { useTranslations, type Lang } from "../../i18n/ui";
+import { alternatesFor, localeUrl } from "../../i18n/urls";
+import { getPosts } from "../../lib/posts";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PostCard from "../PostCard.astro";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const posts = (await getPosts(lang)).slice(0, 5);
+---
+
+<BaseLayout lang={lang} title={SITE.title} alternates={alternatesFor()}>
+  <slot name="head" slot="head" />
+
+  <section class="max-w-2xl">
+    <h1 class="font-mono text-2xl font-semibold text-strong sm:text-3xl">
+      {SITE.title}<span class="text-accent">_</span>
+    </h1>
+    <p class="mt-4 leading-relaxed text-muted">{t("home.tagline")}</p>
+  </section>
+
+  <section class="mt-14">
+    <h2 class="font-mono text-[10px] tracking-widest text-muted uppercase">{t("home.latest")}</h2>
+    <div class="mt-4">
+      {posts.map((post) => <PostCard post={post} lang={lang} />)}
+      {posts.length === 0 && <p class="text-sm text-muted">{t("blog.empty")}</p>}
+    </div>
+    <a
+      href={localeUrl(lang, "blog")}
+      class="mt-6 inline-block font-mono text-xs text-accent transition-colors hover:text-strong"
+    >
+      {t("home.all")} →
+    </a>
+  </section>
+</BaseLayout>

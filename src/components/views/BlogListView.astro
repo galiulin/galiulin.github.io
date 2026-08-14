@@ -1,0 +1,30 @@
+---
+import type { Page } from "astro";
+import { useTranslations, type Lang } from "../../i18n/ui";
+import { alternatesFor } from "../../i18n/urls";
+import type { Post } from "../../lib/posts";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PostCard from "../PostCard.astro";
+import Pagination from "../Pagination.astro";
+
+interface Props {
+  lang: Lang;
+  page: Page<Post>;
+}
+
+const { lang, page } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<BaseLayout lang={lang} title={t("blog.title")} alternates={alternatesFor("blog")}>
+  <h1 class="text-2xl font-semibold text-strong">{t("blog.title")}</h1>
+
+  <div class="mt-8 max-w-3xl">
+    {page.data.map((post) => <PostCard post={post} lang={lang} />)}
+    {page.data.length === 0 && <p class="text-sm text-muted">{t("blog.empty")}</p>}
+  </div>
+
+  <div class="max-w-3xl">
+    <Pagination page={page} lang={lang} />
+  </div>
+</BaseLayout>

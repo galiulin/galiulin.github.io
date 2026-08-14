@@ -1,0 +1,94 @@
+---
+import "../styles/global.css";
+import { SITE } from "../consts";
+import { langs, locales, useTranslations, type Lang } from "../i18n/ui";
+import { feedUrl, type Alternates } from "../i18n/urls";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description?: string;
+  alternates: Alternates;
+  /** `article` on post pages, `website` elsewhere. */
+  ogType?: "website" | "article";
+  /** Path of the social preview image, if the page has one. */
+  image?: string;
+}
+
+const { lang, title, description, alternates, ogType = "website", image } = Astro.props;
+const t = useTranslations(lang);
+
+const pageTitle = title === SITE.title ? title : `${title} — ${SITE.title}`;
+const pageDescription = description ?? t("site.description");
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang={locales[lang].htmlLang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
+
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <meta name="author" content={SITE.author} />
+    <link rel="canonical" href={canonical} />
+
+    {
+      langs.map(
+        (code) =>
+          alternates[code].translated && (
+            <link
+              rel="alternate"
+              hreflang={code}
+              href={new URL(alternates[code].href, Astro.site)}
+            />
+          ),
+      )
+    }
+    {
+      alternates.en.translated && (
+        <link rel="alternate" hreflang="x-default" href={new URL(alternates.en.href, Astro.site)} />
+      )
+    }
+
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={`${SITE.title} (${locales[lang].label})`}
+      href={new URL(feedUrl(lang), Astro.site)}
+    />
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={locales[lang].htmlLang.replace("-", "_")} />
+    <meta property="og:site_name" content={SITE.title} />
+    {image && <meta property="og:image" content={new URL(image, Astro.site)} />}
+    <meta name="twitter:card" content={image ? "summary_large_image" : "summary"} />
+
+    <slot name="head" />
+  </head>
+
+  <body class="flex min-h-screen flex-col">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-100 focus:rounded focus:bg-raised focus:px-3 focus:py-2 focus:text-sm"
+    >
+      {t("a11y.skip")}
+    </a>
+
+    <Header lang={lang} alternates={alternates} />
+
+    <main id="main" class="mx-auto w-full max-w-5xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
+      <slot />
+    </main>
+
+    <Footer lang={lang} />
+  </body>
+</html>

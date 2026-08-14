@@ -1,0 +1,38 @@
+---
+import { useTranslations, type Lang } from "../i18n/ui";
+import type { Page } from "astro";
+
+interface Props {
+  page: Page<unknown>;
+  lang: Lang;
+}
+
+const { page, lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+{
+  page.lastPage > 1 && (
+    <nav class="mt-10 flex items-center justify-between border-t border-border pt-6 font-mono text-xs">
+      {page.url.prev ? (
+        <a href={page.url.prev} rel="prev" class="text-muted transition-colors hover:text-accent">
+          ← {t("pagination.prev")}
+        </a>
+      ) : (
+        <span class="text-border">← {t("pagination.prev")}</span>
+      )}
+
+      <span class="text-muted">
+        {t("pagination.page")} {page.currentPage} / {page.lastPage}
+      </span>
+
+      {page.url.next ? (
+        <a href={page.url.next} rel="next" class="text-muted transition-colors hover:text-accent">
+          {t("pagination.next")} →
+        </a>
+      ) : (
+        <span class="text-border">{t("pagination.next")} →</span>
+      )}
+    </nav>
+  )
+}

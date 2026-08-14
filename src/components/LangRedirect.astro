@@ -1,0 +1,18 @@
+---
+// Sends a returning visitor from the site root to the language they picked last time.
+// Only used on `/` — a direct link to `/ru/...` or `/blog/...` is always honoured.
+import { defaultLang } from "../i18n/ui";
+import { localeUrl } from "../i18n/urls";
+
+const targets = { ru: localeUrl("ru") };
+---
+
+<script is:inline define:vars={{ targets, defaultLang, root: localeUrl(defaultLang) }}>
+  try {
+    const preferred = localStorage.getItem("preferred-lang");
+    const target = preferred && preferred !== defaultLang ? targets[preferred] : null;
+    if (target && location.pathname === root) location.replace(target);
+  } catch {
+    // No storage access — stay on the default language.
+  }
+</script>

@@ -1,0 +1,161 @@
+---
+import { Image } from "astro:assets";
+import { render } from "astro:content";
+import { langs, readingTimeLabel, useTranslations, type Lang } from "../../i18n/ui";
+import { localeUrl, type Alternates } from "../../i18n/urls";
+import { getPosts, getTranslation, readingTime, relatedPosts, slugOf, type Post } from "../../lib/posts";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../Breadcrumbs.astro";
+import FormattedDate from "../FormattedDate.astro";
+import Mermaid from "../Mermaid.astro";
+import PostCard from "../PostCard.astro";
+import TagPill from "../TagPill.astro";
+import TableOfContents from "../react/TableOfContents";
+
+interface Props {
+  lang: Lang;
+  post: Post;
+}
+
+const { lang, post } = Astro.props;
+const t = useTranslations(lang);
+const { Content, headings } = await render(post);
+
+const translation = await getTranslation(post);
+const related = relatedPosts(post, await getPosts(lang));
+const toc = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 3);
+
+// Languages without a translation of this post point at their blog index instead.
+const alternates = Object.fromEntries(
+  langs.map((code) => {
+    if (code === lang) return [code, { href: localeUrl(code, `blog/${slugOf(post)}`), translated: true }];
+    if (translation)
+      return [code, { href: localeUrl(code, `blog/${slugOf(translation)}`), translated: true }];
+    return [code, { href: localeUrl(code, "blog"), translated: false }];
+  }),
+) as Alternates;
+---
+
+<BaseLayout
+  lang={lang}
+  title={post.data.title}
+  description={post.data.description}
+  alternates={alternates}
+  ogType="article"
+  image={post.data.coverImage?.src}
+>
+  <div class="lg:grid lg:grid-cols-[minmax(0,1fr)_13rem] lg:gap-12">
+    <article data-pagefind-body class="min-w-0 max-w-3xl">
+      <Breadcrumbs
+        items={[
+          { label: t("nav.home"), href: localeUrl(lang) },
+          { label: t("blog.title"), href: localeUrl(lang, "blog") },
+          { label: post.data.title },
+        ]}
+      />
+
+      <h1 class="text-3xl leading-tight font-semibold text-strong">{post.data.title}</h1>
+
+      <div class="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-muted">
+        <FormattedDate date={post.data.pubDate} lang={lang} />
+        <span aria-hidden="true">·</span>
+        <span>{readingTimeLabel(lang, readingTime(post))}</span>
+        {
+          post.data.updatedDate && (
+            <>
+              <span aria-hidden="true">·</span>
+              <span>
+                {t("blog.updated")} <FormattedDate date={post.data.updatedDate} lang={lang} />
+              </span>
+            </>
+          )
+        }
+      </div>
+
+      {
+        translation && (
+          <a
+            href={alternates[translation.data.lang].href}
+            data-pagefind-ignore
+            class="mt-5 inline-flex items-center gap-2 rounded border border-accent-dim/60 px-3 py-1.5 font-mono text-xs text-accent transition-colors hover:border-accent"
+          >
+            <span aria-hidden="true">⇄</span>
+            {t("blog.translation")}
+          </a>
+        )
+      }
+
+      {
+        toc.length > 2 && (
+          <details class="mt-6 rounded border border-border bg-surface px-4 py-3 lg:hidden" data-pagefind-ignore>
+            <summary class="cursor-pointer font-mono text-[10px] tracking-widest text-muted uppercase">
+              {t("blog.toc")}
+            </summary>
+            <ul class="mt-3 space-y-1.5 text-sm">
+              {toc.map((heading) => (
+                <li style={`padding-left: ${(heading.depth - 2) * 0.75}rem`}>
+                  <a href={`#${heading.slug}`} class="text-muted transition-colors hover:text-accent">
+                    {heading.text}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </details>
+        )
+      }
+
+      {
+        post.data.coverImage && (
+          <Image
+            src={post.data.coverImage}
+            alt=""
+            widths={[640, 960, 1280]}
+            sizes="(min-width: 1024px) 48rem, 100vw"
+            class="mt-8 w-full rounded border border-border"
+          />
+        )
+      }
+
+      <div class="prose mt-10">
+        <Content />
+      </div>
+
+      {
+        post.data.tags.length > 0 && (
+          <div class="mt-12 flex flex-wrap gap-1.5 border-t border-border pt-6" data-pagefind-ignore>
+            {post.data.tags.map((tag) => (
+              <TagPill tag={tag} lang={lang} />
+            ))}
+          </div>
+        )
+      }
+
+      {
+        related.length > 0 && (
+          <section class="mt-12" data-pagefind-ignore>
+            <h2 class="font-mono text-[10px] tracking-widest text-muted uppercase">
+              {t("blog.related")}
+            </h2>
+            <div class="mt-2">
+              {related.map((item) => (
+                <PostCard post={item} lang={lang} />
+              ))}
+            </div>
+          </section>
+        )
+      }
+    </article>
+
+    {
+      toc.length > 2 && (
+        <aside class="hidden lg:block">
+          <div class="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto">
+            <TableOfContents headings={toc} title={t("blog.toc")} client:visible />
+          </div>
+        </aside>
+      )
+    }
+  </div>
+
+  <Mermaid />
+</BaseLayout>

@@ -1,0 +1,142 @@
+---
+import { SITE } from "../consts";
+import { locales, useTranslations, type Lang } from "../i18n/ui";
+import { localeUrl, type Alternates } from "../i18n/urls";
+import LanguageSwitcher, { type LangLink } from "./react/LanguageSwitcher";
+import SearchModal from "./react/SearchModal";
+
+interface Props {
+  lang: Lang;
+  alternates: Alternates;
+}
+
+const { lang, alternates } = Astro.props;
+const t = useTranslations(lang);
+
+const nav = [
+  { href: localeUrl(lang), label: t("nav.home") },
+  { href: localeUrl(lang, "blog"), label: t("nav.blog") },
+  { href: localeUrl(lang, "tags"), label: t("nav.tags") },
+  { href: localeUrl(lang, "about"), label: t("nav.about") },
+];
+
+const here = Astro.url.pathname;
+const isActive = (href: string) =>
+  href === localeUrl(lang) ? here === href : here.startsWith(href);
+
+const langLinks: LangLink[] = (Object.keys(alternates) as Lang[]).map((code) => ({
+  lang: code,
+  label: locales[code].label,
+  name: locales[code].name,
+  href: alternates[code].href,
+  translated: alternates[code].translated,
+}));
+
+const searchStrings = {
+  open: t("search.open"),
+  placeholder: t("search.placeholder"),
+  hint: t("search.hint"),
+  empty: t("search.empty"),
+  unavailable: t("search.unavailable"),
+  results: t("search.results"),
+};
+---
+
+<header
+  class="sticky top-0 z-50 border-b border-border bg-bg/85 backdrop-blur supports-[backdrop-filter]:bg-bg/70"
+>
+  <div class="mx-auto flex h-14 max-w-5xl items-center gap-4 px-4 sm:px-6">
+    <a
+      href={localeUrl(lang)}
+      class="font-mono text-sm font-semibold tracking-tight text-strong transition-colors hover:text-accent"
+    >
+      {SITE.title}<span class="text-accent">_</span>
+    </a>
+
+    <nav aria-label={t("nav.menu")} class="ml-auto hidden items-center gap-6 md:flex">
+      {
+        nav.map((item) => (
+          <a
+            href={item.href}
+            aria-current={isActive(item.href) ? "page" : undefined}
+            class:list={[
+              "text-sm transition-colors hover:text-accent",
+              isActive(item.href) ? "text-accent" : "text-muted",
+            ]}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="ml-auto flex items-center gap-2 md:ml-0">
+      <SearchModal strings={searchStrings} client:load />
+      <LanguageSwitcher
+        current={lang}
+        currentLabel={locales[lang].label}
+        links={langLinks}
+        title={t("nav.language")}
+        client:load
+      />
+      <button
+        type="button"
+        id="menu-toggle"
+        aria-label={t("nav.menu")}
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        class="cursor-pointer rounded p-1 text-muted transition-colors hover:text-accent md:hidden"
+      >
+        <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">
+          <path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.6"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div
+    id="mobile-menu"
+    hidden
+    class="fixed inset-0 top-14 z-40 flex flex-col gap-1 border-t border-border bg-bg px-6 py-8 md:hidden"
+  >
+    {
+      nav.map((item) => (
+        <a
+          href={item.href}
+          aria-current={isActive(item.href) ? "page" : undefined}
+          class:list={[
+            "border-b border-border py-4 text-lg transition-colors hover:text-accent",
+            isActive(item.href) ? "text-accent" : "text-fg",
+          ]}
+        >
+          {item.label}
+        </a>
+      ))
+    }
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById("menu-toggle");
+  const menu = document.getElementById("mobile-menu");
+
+  if (toggle && menu) {
+    let open = false;
+
+    const setOpen = (value: boolean) => {
+      open = value;
+      menu.hidden = !value;
+      toggle.setAttribute("aria-expanded", String(value));
+      document.body.style.overflow = value ? "hidden" : "";
+    };
+
+    toggle.addEventListener("click", () => setOpen(!open));
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && open) setOpen(false);
+    });
+    // A resize into the desktop layout would otherwise leave scrolling locked.
+    window.addEventListener("resize", () => {
+      if (window.innerWidth >= 768 && open) setOpen(false);
+    });
+  }
+</script>

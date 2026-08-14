@@ -1,0 +1,35 @@
+---
+// Renders ```mermaid blocks (excluded from Shiki in astro.config.mjs).
+// Mermaid itself is only downloaded on pages that actually contain a diagram.
+---
+
+<script>
+  const blocks = document.querySelectorAll<HTMLElement>("pre > code.language-mermaid");
+
+  if (blocks.length > 0) {
+    const { default: mermaid } = await import("mermaid");
+
+    mermaid.initialize({
+      startOnLoad: false,
+      securityLevel: "strict",
+      theme: "dark",
+      darkMode: true,
+      fontFamily: "inherit",
+      themeVariables: { background: "#121212", mainBkg: "#191919", lineColor: "#8a8580" },
+    });
+
+    for (const [index, block] of blocks.entries()) {
+      const pre = block.closest("pre");
+      if (!pre) continue;
+      try {
+        const { svg } = await mermaid.render(`mermaid-${index}`, block.textContent ?? "");
+        const figure = document.createElement("figure");
+        figure.className = "mermaid-figure";
+        figure.innerHTML = svg;
+        pre.replaceWith(figure);
+      } catch (error) {
+        console.error("mermaid render failed", error);
+      }
+    }
+  }
+</script>

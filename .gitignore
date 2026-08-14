@@ -1,7 +1,9 @@
-# Hugo
-public/
-resources/_gen/
-.hugo_build.lock
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
 
 # macOS
 .DS_Store
@@ -10,3 +12,9 @@ resources/_gen/
 .idea
 *.sublime-project
 *.sublime-workspace
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*

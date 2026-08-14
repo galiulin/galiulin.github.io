@@ -1,0 +1,24 @@
+---
+import { useTranslations, type Lang } from "../../i18n/ui";
+import { alternatesFor } from "../../i18n/urls";
+import { collectTags, getPosts } from "../../lib/posts";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import TagPill from "../TagPill.astro";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const tags = collectTags(await getPosts(lang));
+---
+
+<BaseLayout lang={lang} title={t("tags.title")} alternates={alternatesFor("tags")}>
+  <h1 class="text-2xl font-semibold text-strong">{t("tags.title")}</h1>
+
+  <div class="mt-8 flex flex-wrap gap-2">
+    {tags.map(({ tag, count }) => <TagPill tag={tag} lang={lang} count={count} />)}
+    {tags.length === 0 && <p class="text-sm text-muted">{t("blog.empty")}</p>}
+  </div>
+</BaseLayout>

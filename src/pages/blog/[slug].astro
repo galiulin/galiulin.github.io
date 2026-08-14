@@ -1,0 +1,15 @@
+---
+import type { GetStaticPaths } from "astro";
+import { getPosts, slugOf } from "../../lib/posts";
+import PostView from "../../components/views/PostView.astro";
+
+export const getStaticPaths = (async () =>
+  (await getPosts("en")).map((post) => ({
+    params: { slug: slugOf(post) },
+    props: { post },
+  }))) satisfies GetStaticPaths;
+
+const { post } = Astro.props;
+---
+
+<PostView lang="en" post={post} />
