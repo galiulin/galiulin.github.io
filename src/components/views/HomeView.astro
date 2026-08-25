@@ -27,7 +27,7 @@ const posts = (await getPosts(lang)).slice(0, 5);
 
   <section class="mt-14">
     <h2 class="font-mono text-[10px] tracking-widest text-muted uppercase">{t("home.latest")}</h2>
-    <div class="mt-4">
+    <div class="mt-4 flex flex-col gap-5">
       {posts.map((post) => <PostCard post={post} lang={lang} />)}
       {posts.length === 0 && <p class="text-sm text-muted">{t("blog.empty")}</p>}
     </div>

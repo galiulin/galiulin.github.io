@@ -18,7 +18,9 @@
 
   --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
     sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, Consolas, monospace;
+  /* Loaded for real via Google Fonts in BaseLayout's <head> — the rest of the stack is the
+     fallback for the brief window before it's ready (or if the request fails). */
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 
 @layer base {
@@ -210,4 +212,62 @@
 .prose .mermaid-figure svg {
   max-width: 100%;
   height: auto;
+}
+
+/* --- Post grid (blog list) ------------------------------------------- */
+
+/*
+ * Scoped to `.post-grid` (the blog list page only) rather than `.post-card` itself, so the same
+ * card markup renders normally — no JS required — anywhere else it's reused (e.g. the homepage's
+ * "latest posts" list), where nothing observes it to add `.in-view`.
+ */
+.post-grid .post-card {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease,
+    border-color 0.2s ease;
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+
+.post-grid .post-card.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .post-grid .post-card {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --- Post page (single post) ------------------------------------------ */
+
+/*
+ * The article "unfolds" once on load — the same tile the list page's cards use,
+ * just expanded to hold the full post. Not scroll-triggered (there's only one on
+ * the page), so it's a plain load-in rather than `.post-grid`'s IntersectionObserver.
+ */
+.article-tile {
+  opacity: 0;
+  transform: translateY(14px) scale(0.99);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
+
+.article-tile.in-view {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .article-tile {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
 }

@@ -43,7 +43,7 @@ const alternates = Object.fromEntries(
     <span class="text-muted">{t("tags.tagged")}:</span> {tag}
   </h1>
 
-  <div class="mt-8 max-w-3xl">
+  <div class="mt-8 flex max-w-3xl flex-col gap-5">
     {posts.map((post) => <PostCard post={post} lang={lang} />)}
   </div>
 </BaseLayout>

@@ -55,10 +55,18 @@ export default function LanguageSwitcher({ current, currentLabel, links, title }
         aria-expanded={open}
         aria-haspopup="menu"
         onClick={() => setOpen((value) => !value)}
-        className="flex cursor-pointer items-center gap-1 rounded px-2 py-1 font-mono text-xs tracking-wide text-muted uppercase transition-colors hover:text-accent"
+        className={`flex cursor-pointer items-center gap-1.5 rounded border px-2 py-1 font-mono text-xs font-semibold tracking-wide uppercase transition-colors ${
+          open ? "border-border text-accent" : "border-transparent text-muted hover:text-accent"
+        }`}
       >
         {currentLabel}
-        <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true">
+        <svg
+          width="9"
+          height="9"
+          viewBox="0 0 10 10"
+          aria-hidden="true"
+          className={`transition-transform ${open ? "rotate-180" : ""}`}
+        >
           <path d="M1 3.5 5 7.5 9 3.5" fill="none" stroke="currentColor" strokeWidth="1.4" />
         </svg>
       </button>
@@ -66,7 +74,7 @@ export default function LanguageSwitcher({ current, currentLabel, links, title }
       {open && (
         <ul
           role="menu"
-          className="absolute right-0 top-full z-50 mt-1 min-w-36 overflow-hidden rounded border border-border bg-raised py-1"
+          className="absolute right-0 top-full z-50 mt-1.5 min-w-36 overflow-hidden rounded border border-border bg-raised p-1"
         >
           {links.map((link) => (
             <li key={link.lang} role="none">
@@ -75,13 +83,13 @@ export default function LanguageSwitcher({ current, currentLabel, links, title }
                 href={link.href}
                 onClick={() => choose(link.lang)}
                 aria-current={link.lang === current ? "true" : undefined}
-                className={`block px-3 py-1.5 text-sm transition-colors hover:bg-surface hover:text-accent ${
+                className={`flex items-center justify-between gap-2 rounded px-2.5 py-1.5 text-sm transition-colors hover:bg-surface hover:text-accent ${
                   link.lang === current ? "text-accent" : "text-fg"
                 }`}
               >
                 {link.name}
                 {!link.translated && (
-                  <span className="ml-1 font-mono text-[10px] text-muted">↗</span>
+                  <span className="font-mono text-[10px] text-muted">↗</span>
                 )}
               </a>
             </li>

@@ -17,14 +17,41 @@ const t = useTranslations(lang);
 ---
 
 <BaseLayout lang={lang} title={t("blog.title")} alternates={alternatesFor("blog")}>
-  <h1 class="text-2xl font-semibold text-strong">{t("blog.title")}</h1>
+  {/*
+    The extra px-5 lines the heading up with the text *inside* the cards below (card border +
+    the card's own p-5), not with the cards' outer border — matches the approved mockup.
+  */}
+  <div class="px-5">
+    <h1 class="text-2xl font-semibold text-strong">{t("blog.title")}</h1>
+  </div>
 
-  <div class="mt-8 max-w-3xl">
-    {page.data.map((post) => <PostCard post={post} lang={lang} />)}
+  <div class="post-grid mt-8 grid grid-cols-1 gap-5 md:grid-cols-2">
+    {page.data.map((post, index) => <PostCard post={post} lang={lang} index={index} />)}
     {page.data.length === 0 && <p class="text-sm text-muted">{t("blog.empty")}</p>}
   </div>
 
-  <div class="max-w-3xl">
-    <Pagination page={page} lang={lang} />
-  </div>
+  <Pagination page={page} lang={lang} />
 </BaseLayout>
+
+<script>
+  // Fade + slide-up reveal for the post grid, staggered via each card's `--i`.
+  const cards = document.querySelectorAll<HTMLElement>(".post-grid .post-card");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (!reduceMotion && "IntersectionObserver" in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in-view");
+            io.unobserve(entry.target);
+          }
+        }
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -40px 0px" },
+    );
+    cards.forEach((card) => io.observe(card));
+  } else {
+    cards.forEach((card) => card.classList.add("in-view"));
+  }
+</script>
