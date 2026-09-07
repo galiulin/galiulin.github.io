@@ -25,6 +25,14 @@
 
 @layer base {
   html {
+    /*
+     * Pinned rather than left at the browser default, because Firefox resolves that default
+     * per *language group*: a profile can carry 15px for Latin and 16px for Cyrillic, so the
+     * English pages rendered ~6% smaller than the Russian ones — the whole layout with them,
+     * since the design is sized in rem. Chrome has no per-script size preference and was
+     * already at 16px, so this changes nothing there. Browser zoom still scales everything.
+     */
+    font-size: 16px;
     scroll-behavior: smooth;
     scroll-padding-top: 6rem;
     color-scheme: dark;
