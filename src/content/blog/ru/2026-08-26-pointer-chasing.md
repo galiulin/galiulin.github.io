@@ -60,6 +60,8 @@ fun sumArray(values: LongArray): Long {
 
 Конкретные настройки: 5 итераций прогрева по 300 мс + 5 измерительных итераций по 500 мс, повторено в 3-х отдельных JVM - то есть 15 независимых замеров на каждую точку с прогретым JIT. Считалось на JDK 25 (обычный OpenJDK), байткод под JIT, как выполняется большинство Java/Kotlin-кода в проде. Железо — MacBook Pro на Apple M2 Max: у P-ядра 128 КБ кэша L1, у кластера P-ядер общий L2 на 16 МБ, оперативной памяти 32 ГБ.
 
+Полные исходники бенчмарка лежат на GitHub: [`galiulin/jvm-benchmarks`](https://github.com/galiulin/jvm-benchmarks), модуль [`pointer-chasing/`](https://github.com/galiulin/jvm-benchmarks/tree/main/pointer-chasing). Там структуры данных и функции суммирования ([`PointerChasing.kt`](https://github.com/galiulin/jvm-benchmarks/blob/main/pointer-chasing/src/main/kotlin/io/github/galiulin/benchmarks/pointerchasing/PointerChasing.kt)), сам JMH-бенчмарк ([`PointerChasingBenchmark.java`](https://github.com/galiulin/jvm-benchmarks/blob/main/pointer-chasing/src/jmh/java/io/github/galiulin/benchmarks/pointerchasing/PointerChasingBenchmark.java)), тесты корректности билдеров ([`PointerChasingTest.kt`](https://github.com/galiulin/jvm-benchmarks/blob/main/pointer-chasing/src/test/kotlin/io/github/galiulin/benchmarks/pointerchasing/PointerChasingTest.kt)), сырые результаты этого прогона (`results/results.json` и `run.log`) и [README модуля](https://github.com/galiulin/jvm-benchmarks/blob/main/pointer-chasing/README.md) с точной командой для воспроизведения.
+
 ### Кроме массива и списка — ещё два варианта
 
 Чтобы не путать "промах кэша" со "связным списком вообще", в замер добавлены ещё две структуры между двумя крайностями:
