@@ -19,7 +19,7 @@ Swap a linked list for an array without touching the algorithm — and you get a
 
 ## Why a linked list is slow
 
-`LinkedBlockingQueue` stores elements as a chain of nodes, and each node is a separate object on the heap. The address of the next node is only known after you've read the current node and its `next` field — it can't be computed ahead of time. The CPU can't load the next node until it has the current one. Memory accesses form a dependency chain and happen one after another, not in parallel.
+`LinkedList` stores elements as a chain of nodes, and each node is a separate object on the heap. The address of the next node is only known after you've read the current node and its `next` field — it can't be computed ahead of time. The CPU can't load the next node until it has the current one. Memory accesses form a dependency chain and happen one after another, not in parallel.
 
 Between the CPU and RAM sits a cache — small but fast memory right on the die. If the data you need is already there, that's a cache hit, and the read takes a handful of cycles. If it's not there, that's a cache miss: the CPU has to go to RAM, which is orders of magnitude slower than the cache.
 
