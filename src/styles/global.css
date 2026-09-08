@@ -222,6 +222,59 @@
   height: auto;
 }
 
+/* --- Code block copy button ----------------------------------------- */
+
+/*
+ * The button is pinned to a wrapper <div> added around each <pre> at runtime, not to the <pre>
+ * itself — the <pre> scrolls horizontally and anything positioned inside it scrolls away.
+ */
+.prose .code-block {
+  position: relative;
+}
+
+.prose .code-block .copy-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0.35em 0.6em;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1;
+  color: var(--color-muted);
+  background-color: var(--color-raised);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: 0;
+  transition:
+    opacity 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.prose .code-block:hover .copy-btn,
+.prose .code-block .copy-btn:focus-visible {
+  opacity: 1;
+}
+
+.prose .code-block .copy-btn:hover {
+  color: var(--color-strong);
+  border-color: var(--color-accent-dim);
+}
+
+.prose .code-block .copy-btn.copied {
+  color: var(--color-accent);
+  border-color: var(--color-accent-dim);
+  opacity: 1;
+}
+
+/* No hover on touch devices — keep the button visible there. */
+@media (hover: none) {
+  .prose .code-block .copy-btn {
+    opacity: 1;
+  }
+}
+
 /* --- Post grid (blog list) ------------------------------------------- */
 
 /*

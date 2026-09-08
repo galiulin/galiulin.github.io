@@ -75,6 +75,11 @@ and the language switcher stays on the same article when switching.
   `dist/pagefind/`. It does not exist on the dev server; the modal says so.
 - **Mermaid** — ` ```mermaid ` blocks are excluded from Shiki and rendered client-side; the library
   is only downloaded on pages that contain a diagram.
+- **Copy buttons** — added to every code block on post pages by an inline script in `PostView`
+  (mermaid blocks excluded).
+- **Social images** — `src/pages/og/[...path].png.ts` renders a 1200×630 card per post (and
+  `/og/default.png` for other pages) at build time; `src/lib/og.ts` builds it as SVG in the site's
+  colours and rasterises it with `sharp`. Wired into `og:image` by `BaseLayout` / `PostView`.
 - **Feeds** — `/rss.xml` and `/ru/rss.xml`, plus `sitemap-index.xml` with `hreflang` alternates.
 - **Design tokens** — `src/styles/global.css`. Dark-only by design; a light theme means adding a
   `:root[data-theme="light"]` block there (and a Shiki dual theme in `astro.config.mjs`).

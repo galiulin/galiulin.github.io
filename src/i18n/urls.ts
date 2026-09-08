@@ -8,6 +8,10 @@ export const localeUrl = (lang: Lang, path = ""): string => getRelativeLocaleUrl
 export const feedUrl = (lang: Lang): string =>
   `${import.meta.env.BASE_URL}${lang === "en" ? "" : `${lang}/`}rss.xml`.replace(/\/{2,}/g, "/");
 
+/** Build-time social image: `default` or `<lang>/<slug>`. A file route, so no trailing slash. */
+export const ogImageUrl = (path: string): string =>
+  `${import.meta.env.BASE_URL}og/${path}.png`.replace(/\/{2,}/g, "/");
+
 export type Alternates = Record<Lang, { href: string; translated: boolean }>;
 
 /** The same page in every language — for pages that exist in all of them. */

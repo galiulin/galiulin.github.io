@@ -2,7 +2,7 @@
 import { Image } from "astro:assets";
 import { render } from "astro:content";
 import { langs, readingTimeLabel, useTranslations, type Lang } from "../../i18n/ui";
-import { localeUrl, type Alternates } from "../../i18n/urls";
+import { localeUrl, ogImageUrl, type Alternates } from "../../i18n/urls";
 import { getPosts, getTranslation, readingTime, relatedPosts, slugOf, type Post } from "../../lib/posts";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Breadcrumbs from "../Breadcrumbs.astro";
@@ -42,7 +42,7 @@ const alternates = Object.fromEntries(
   description={post.data.description}
   alternates={alternates}
   ogType="article"
-  image={post.data.coverImage?.src}
+  image={post.data.coverImage?.src ?? ogImageUrl(`${lang}/${slugOf(post)}`)}
 >
   <Breadcrumbs
     items={[
@@ -56,6 +56,8 @@ const alternates = Object.fromEntries(
     <article
       data-pagefind-body
       id="article-tile"
+      data-copy={t("code.copy")}
+      data-copied={t("code.copied")}
       class="article-tile min-w-0 rounded border border-border bg-surface px-5 pt-6 pb-8 sm:px-9 sm:pt-8 sm:pb-10"
     >
       <p class="font-mono text-[11px] text-accent-dim">blog/{slugOf(post)}.md</p>
@@ -166,6 +168,47 @@ const alternates = Object.fromEntries(
   }
 
   <Mermaid />
+
+  <script>
+    // A "copy" button on every code block (mermaid diagrams excluded — they're replaced by an
+    // <svg> before this runs). The <pre> scrolls horizontally, so the button can't live inside
+    // it; each <pre> is wrapped in a positioned <div> that the button is pinned to instead.
+    const article = document.getElementById("article-tile");
+    const copyLabel = article?.dataset.copy ?? "Copy";
+    const copiedLabel = article?.dataset.copied ?? "Copied";
+
+    for (const pre of document.querySelectorAll<HTMLPreElement>(".prose pre")) {
+      const code = pre.querySelector("code");
+      if (!code || code.classList.contains("language-mermaid")) continue;
+
+      const wrapper = document.createElement("div");
+      wrapper.className = "code-block";
+      pre.replaceWith(wrapper);
+      wrapper.append(pre);
+
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "copy-btn";
+      button.textContent = copyLabel;
+      button.setAttribute("aria-label", copyLabel);
+
+      button.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(code.innerText.replace(/\n$/, ""));
+          button.textContent = copiedLabel;
+          button.classList.add("copied");
+          setTimeout(() => {
+            button.textContent = copyLabel;
+            button.classList.remove("copied");
+          }, 1600);
+        } catch {
+          /* clipboard blocked — nothing useful to do */
+        }
+      });
+
+      wrapper.append(button);
+    }
+  </script>
 
   <script>
     // The tile "unfolds" once on load — a plain fade + scale-in, not scroll-triggered
