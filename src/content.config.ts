@@ -28,6 +28,8 @@ const blog = defineCollection({
       translationId: z.string(),
       tags: z.array(z.string()).default([]),
       coverImage: image().optional(),
+      /** One post per language may set this — the home page pins it above the latest list. */
+      featured: z.boolean().default(false),
       draft: z.boolean().default(false),
     }),
 });

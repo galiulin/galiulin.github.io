@@ -38,6 +38,7 @@ tags:
   - Kotlin
   - Flow
 coverImage: ./cover.png # optional, path relative to the post; goes through astro:assets
+featured: true # optional; one post per language is pinned on the home page above the latest list
 draft: false # drafts are visible with `npm run dev`, excluded from the build
 ---
 ```

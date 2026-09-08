@@ -10,6 +10,7 @@ tags:
   - Performance
   - JMH
   - Concurrency
+featured: true
 ---
 
 # What is pointer chasing

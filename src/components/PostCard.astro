@@ -14,9 +14,12 @@ interface Props {
   /** Lighter-weight variant for secondary contexts (e.g. the post page's "related posts") —
    * no cover, no tags, smaller type. Same border/radius/hover language as the full card. */
   compact?: boolean;
+  /** Heavier variant for the home page's pinned post — larger type, roomier padding.
+   * Mutually exclusive with `compact`. */
+  featured?: boolean;
 }
 
-const { post, lang, index = 0, compact = false } = Astro.props;
+const { post, lang, index = 0, compact = false, featured = false } = Astro.props;
 const href = localeUrl(lang, `blog/${slugOf(post)}`);
 const cover = post.data.coverImage;
 ---
@@ -39,7 +42,7 @@ const cover = post.data.coverImage;
     )
   }
 
-  <div class:list={["flex flex-1 flex-col", compact ? "p-4" : "p-5"]}>
+  <div class:list={["flex flex-1 flex-col", compact ? "p-4" : featured ? "p-6 sm:p-8" : "p-5"]}>
     <p class:list={["font-mono text-accent-dim", compact ? "text-[10px]" : "text-[11px]"]}>
       blog/{slugOf(post)}.md
     </p>
@@ -51,11 +54,21 @@ const cover = post.data.coverImage;
       {post.data.draft && <span class="text-accent">draft</span>}
     </div>
 
-    <h2 class:list={["mt-2 font-semibold text-strong", compact ? "text-base" : "text-lg"]}>
+    <h2
+      class:list={[
+        "mt-2 font-semibold text-strong",
+        compact ? "text-base" : featured ? "text-xl sm:text-2xl" : "text-lg",
+      ]}
+    >
       <a href={href} class="transition-colors group-hover:text-accent">{post.data.title}</a>
     </h2>
 
-    <p class:list={["mt-2 flex-1 leading-relaxed text-muted", compact ? "text-xs" : "text-sm"]}>
+    <p
+      class:list={[
+        "mt-2 flex-1 leading-relaxed text-muted",
+        compact ? "text-xs" : featured ? "text-base" : "text-sm",
+      ]}
+    >
       {post.data.description}
     </p>
 

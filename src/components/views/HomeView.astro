@@ -2,9 +2,10 @@
 import { SITE } from "../../consts";
 import { useTranslations, type Lang } from "../../i18n/ui";
 import { alternatesFor, localeUrl } from "../../i18n/urls";
-import { getPosts } from "../../lib/posts";
+import { collectTags, getPosts } from "../../lib/posts";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PostCard from "../PostCard.astro";
+import TagPill from "../TagPill.astro";
 
 interface Props {
   lang: Lang;
@@ -12,7 +13,16 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
-const posts = (await getPosts(lang)).slice(0, 3);
+
+const allPosts = await getPosts(lang);
+const featured = allPosts.find((post) => post.data.featured) ?? allPosts[0];
+const latest = allPosts.filter((post) => post.id !== featured?.id).slice(0, 3);
+const tags = collectTags(allPosts);
+
+const stats =
+  lang === "en"
+    ? `${allPosts.length} posts · ${tags.length} tags`
+    : `Записей: ${allPosts.length} · Тегов: ${tags.length}`;
 ---
 
 <BaseLayout lang={lang} title={SITE.title} alternates={alternatesFor()}>
@@ -22,14 +32,28 @@ const posts = (await getPosts(lang)).slice(0, 3);
     <h1 class="font-mono text-2xl font-semibold text-strong sm:text-3xl">
       {SITE.title}<span class="text-accent">_</span>
     </h1>
-    <p class="mt-4 leading-relaxed text-muted">{t("home.tagline")}</p>
+    <p class="mt-4 leading-relaxed text-strong">{t("home.intro")}</p>
+    <p class="mt-2 leading-relaxed text-muted">{t("home.tagline")}</p>
   </section>
+
+  {
+    featured && (
+      <section class="mt-14">
+        <h2 class="font-mono text-[10px] tracking-widest text-muted uppercase">
+          {t("home.featured")}
+        </h2>
+        <div class="mt-4">
+          <PostCard post={featured} lang={lang} featured />
+        </div>
+      </section>
+    )
+  }
 
   <section class="mt-14">
     <h2 class="font-mono text-[10px] tracking-widest text-muted uppercase">{t("home.latest")}</h2>
     <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
-      {posts.map((post) => <PostCard post={post} lang={lang} compact />)}
-      {posts.length === 0 && <p class="text-sm text-muted">{t("blog.empty")}</p>}
+      {latest.map((post) => <PostCard post={post} lang={lang} compact />)}
+      {latest.length === 0 && <p class="text-sm text-muted">{t("blog.empty")}</p>}
     </div>
     <a
       href={localeUrl(lang, "blog")}
@@ -38,4 +62,25 @@ const posts = (await getPosts(lang)).slice(0, 3);
       {t("home.all")} →
     </a>
   </section>
+
+  {
+    tags.length > 0 && (
+      <section class="mt-14">
+        <h2 class="font-mono text-[10px] tracking-widest text-muted uppercase">
+          {t("home.topics")}
+        </h2>
+        <div class="mt-4 flex flex-wrap gap-2">
+          {tags.slice(0, 12).map(({ tag, count }) => (
+            <TagPill tag={tag} lang={lang} count={count} />
+          ))}
+        </div>
+        <a
+          href={localeUrl(lang, "tags")}
+          class="mt-4 inline-block font-mono text-xs text-muted transition-colors hover:text-accent"
+        >
+          {stats}
+        </a>
+      </section>
+    )
+  }
 </BaseLayout>
